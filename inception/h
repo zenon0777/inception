@@ -1,0 +1,15 @@
+
+server
+{
+    listen 8081;
+    listen [::]:8081;
+    root /var/adminer;
+    index index.php;
+
+    location ~ \.php$
+    {
+        fastcgi_pass adminer:663;
+        include fastcgi_params;
+        fastcgi_param  SCRIPT_FILENAME ;
+    }
+}

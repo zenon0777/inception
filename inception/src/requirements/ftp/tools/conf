@@ -1,0 +1,5 @@
+userlist_enable=YES
+userlist_file=/etc/vsftpd.userlist
+userlist_deny=NO
+# Enable debugging until everything works
+log_ftp_protocol=YES

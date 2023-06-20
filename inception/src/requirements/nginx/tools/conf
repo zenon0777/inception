@@ -1,0 +1,30 @@
+server{
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    root /var/site/html;
+    index index.php;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_certificate /etc/ssl/self-signed.crt;
+    ssl_certificate_key /etc/ssl/private/self-signed.key;
+    location ~ \.php$ 
+    {
+        fastcgi_pass wordpress:9000;
+        include fastcgi_params;
+        fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+}
+
+server
+{
+    listen 8081;
+    listen [::]:8081;
+    root /var/adminer;
+    index index.php;
+
+    location ~ \.php$
+    {
+        fastcgi_pass adminer:663;
+        include fastcgi_params;
+        fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name ;
+    }
+}

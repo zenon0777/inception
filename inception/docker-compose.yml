@@ -1,0 +1,84 @@
+version: "3"
+
+services:
+  mariadb:
+    container_name: mariadb
+    env_file:
+      - /Users/adaifi/Desktop/inception/src/.env
+    networks:
+      - my_network
+    volumes:
+      - db:/var/lib/mysql
+    build: ./src/requirements/mariadb
+    restart: always
+  redis:
+    container_name: redis
+    env_file:
+      - /Users/adaifi/Desktop/inception/src/.env
+    networks:
+      - my_network
+    build: ./src/requirements/redis
+    restart: always
+  nginx:
+    container_name: nginx
+    build: /Users/adaifi/Desktop/inception/src/requirements/nginx
+    ports:
+      - "443:443"
+      - "8081:8081"
+    volumes:
+      - wordpress_data:/var/site/html:rw
+      - adminer:/var/adminer:rw
+    networks:
+      - my_network
+    depends_on:
+      - mariadb
+      - wordpress
+      - redis
+      - adminer
+    restart: always
+  wordpress:
+    depends_on:
+      - mariadb
+      - redis
+    networks:
+      - my_network
+    container_name: wordpress
+    env_file:
+      - /Users/adaifi/Desktop/inception/src/.env
+    build: ./src/requirements/wordpress
+    volumes:
+      - wordpress_data:/var/site/html:rw
+    restart: always
+  adminer:
+    depends_on:
+      - wordpress
+      - mariadb
+    container_name: adminer
+    networks:
+      - my_network
+    env_file:
+      - /Users/adaifi/Desktop/inception/src/.env
+    build: ./src/requirements/adminer
+    volumes:
+      - adminer:/var/adminer:rw
+    restart: always
+  ftp:
+    container_name: ftp
+    networks:
+      - my_network
+    build: ./src/requirements/ftp
+    volumes:
+      - wordpress_data:/var/site/html:rw
+    ports:
+      - "20-21:20-21"
+      - "1024-1048:1024-1048"
+    depends_on:
+      - wordpress
+    restart: always
+volumes:
+  wordpress_data:
+  db:
+  adminer:
+networks:
+  my_network:
+    driver: bridge
