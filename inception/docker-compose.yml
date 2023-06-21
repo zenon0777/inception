@@ -4,7 +4,7 @@ services:
   mariadb:
     container_name: mariadb
     env_file:
-      - /Users/adaifi/Desktop/inception/src/.env
+      - /Users/adaifi/Desktop/incep/inception/src/.env
     networks:
       - my_network
     volumes:
@@ -14,14 +14,14 @@ services:
   redis:
     container_name: redis
     env_file:
-      - /Users/adaifi/Desktop/inception/src/.env
+      - /Users/adaifi/Desktop/incep/inception/src/.env
     networks:
       - my_network
     build: ./src/requirements/redis
     restart: always
   nginx:
     container_name: nginx
-    build: /Users/adaifi/Desktop/inception/src/requirements/nginx
+    build: /Users/adaifi/Desktop/incep/inception/src/requirements/nginx
     ports:
       - "443:443"
       - "8081:8081"
@@ -44,7 +44,7 @@ services:
       - my_network
     container_name: wordpress
     env_file:
-      - /Users/adaifi/Desktop/inception/src/.env
+      - /Users/adaifi/Desktop/incep/inception/src/.env
     build: ./src/requirements/wordpress
     volumes:
       - wordpress_data:/var/site/html:rw
@@ -57,7 +57,7 @@ services:
     networks:
       - my_network
     env_file:
-      - /Users/adaifi/Desktop/inception/src/.env
+      - /Users/adaifi/Desktop/incep/inception/src/.env
     build: ./src/requirements/adminer
     volumes:
       - adminer:/var/adminer:rw
@@ -75,6 +75,18 @@ services:
     depends_on:
       - wordpress
     restart: always
+  prometheus:
+    container_name: prometheus
+    networks:
+      - my_network
+    build: ./src/requirements/monitoring
+    ports:
+      - "9090:9090"
+    depends_on:
+      - wordpress
+      - nginx
+      - mariadb
+      - redis
 volumes:
   wordpress_data:
   db:
