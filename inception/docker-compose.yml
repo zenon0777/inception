@@ -61,6 +61,8 @@ services:
     build: ./src/requirements/adminer
     volumes:
       - adminer:/var/adminer:rw
+    ports:
+      - "80:80"
     restart: always
   ftp:
     container_name: ftp
@@ -81,12 +83,24 @@ services:
       - my_network
     build: ./src/requirements/monitoring
     ports:
-      - "9090:9090"
+      - "9010:9010"
+      # - "3000:3000"
     depends_on:
       - wordpress
       - nginx
       - mariadb
       - redis
+      - mysql-exporter
+  mysql-exporter:
+    container_name: mysql-exporter
+    networks:
+      - my_network
+    build: ./src/requirements/mysql-exporter
+    depends_on:
+      - mariadb
+    # environment:
+    #   - DATA_SOURCE_NAME="zenon:login@(mariadb:3306)/"
+    restart: always
 volumes:
   wordpress_data:
   db:

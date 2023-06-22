@@ -22,6 +22,8 @@ wp user create adaifi adaifi@wp-cli.org --user_pass=123456 --role=editor --allow
 
 wp plugin install redis-cache --activate --allow-root
 
+chown -R www-data:www-data /var/site/html/
+chmod -R 775 /var/site/html/
 wp redis enable --allow-root
 
 }

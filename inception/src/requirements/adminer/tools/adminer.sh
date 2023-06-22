@@ -6,6 +6,10 @@ sed -i 's/listen = \/run\/php\/php7.4-fpm.sock/listen = 0.0.0.0:663/g' /etc/php/
 
 service php7.4-fpm start
 
+# apt install -y wget
+# wget "https://github.com/prometheus-community/prometheus-adminer-exporter"
+# cp prometheus-adminer-exporter.phar /var/adminer/
+
 kill $(cat /run/php/php7.4-fpm.pid)
 
 /usr/sbin/php-fpm7.4 -F -R
