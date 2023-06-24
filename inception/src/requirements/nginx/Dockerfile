@@ -16,9 +16,10 @@ RUN openssl \
 RUN rm  /etc/nginx/sites-enabled/default
 
 COPY ./tools/conf /etc/nginx/sites-available/conf
-
+COPY ./tools/monitor.sh .
+RUN chmod +x monitor.sh
 RUN ln -s /etc/nginx/sites-available/conf /etc/nginx/sites-enabled/default
 
 ENTRYPOINT ["dumb-init", "--"]
 
-CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
+CMD ["bash", "/monitor.sh"]

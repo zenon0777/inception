@@ -24,7 +24,7 @@ services:
     build: /Users/adaifi/Desktop/incep/inception/src/requirements/nginx
     ports:
       - "443:443"
-      - "8081:8081"
+      - "9113:9113"
     volumes:
       - wordpress_data:/var/site/html:rw
       - adminer:/var/adminer:rw
@@ -61,8 +61,6 @@ services:
     build: ./src/requirements/adminer
     volumes:
       - adminer:/var/adminer:rw
-    ports:
-      - "80:80"
     restart: always
   ftp:
     container_name: ftp
@@ -84,22 +82,29 @@ services:
     build: ./src/requirements/monitoring
     ports:
       - "9010:9010"
-      # - "3000:3000"
+      - "8080:8080"
+      - "3010:3010"
     depends_on:
       - wordpress
       - nginx
       - mariadb
       - redis
-      - mysql-exporter
-  mysql-exporter:
-    container_name: mysql-exporter
-    networks:
-      - my_network
-    build: ./src/requirements/mysql-exporter
-    depends_on:
-      - mariadb
-    # environment:
-    #   - DATA_SOURCE_NAME="zenon:login@(mariadb:3306)/"
+    volumes:
+      - /:/rootfs
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - ~/.docker/run/docker.sock:~/.docker/run/docker.sock
+      - /sys:/sys
+      - /var/lib/docker/:/var/lib/docker
+      - /dev/disk:/dev/disk/
+  # mysql-exporter:
+  #   container_name: mysql-exporter
+  #   networks:
+  #     - my_network
+  #   build: ./src/requirements/mysql-exporter
+  #   depends_on:
+  #     - mariadb
+  #   # environment:
+  #   #   - DATA_SOURCE_NAME="zenon:login@(mariadb:3306)/"
     restart: always
 volumes:
   wordpress_data:

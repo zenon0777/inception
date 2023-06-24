@@ -6,5 +6,4 @@ RUN apt-get update && apt install -y wget && wget https://www.adminer.org/latest
 COPY ./tools/adminer.sh .
 
 RUN chmod +x adminer.sh
-EXPOSE 80
 CMD ["bash", "adminer.sh"]

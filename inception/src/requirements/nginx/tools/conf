@@ -12,23 +12,11 @@ server{
         include fastcgi_params;
         fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
     }
-    location /prometheus
-    {
-        proxy_pass  https://localhost:9094;
-    }
-}
-
-server
-{
-    listen 8081;
-    listen [::]:8081;
-    root /var/adminer;
-    index index.php;
-
-    location ~ \.php$
+    location /adminer
     {
         fastcgi_pass adminer:663;
         include fastcgi_params;
-        fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name ;
+        fastcgi_param  SCRIPT_FILENAME /var/adminer/index.php ;
     }
 }
+
