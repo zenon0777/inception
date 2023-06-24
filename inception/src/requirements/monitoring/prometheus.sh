@@ -126,7 +126,7 @@ Restart=always
 WantedBy=multi-user.target
 " > /etc/systemd/system/cadvisor.service
 
-chmod -R 777 /
+chmod 777 -R /var/run/grafana-server.service.status
 systemctl daemon-reload
 systemctl enable cadvisor
 systemctl start cadvisor

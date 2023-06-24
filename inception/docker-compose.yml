@@ -83,7 +83,7 @@ services:
     ports:
       - "9010:9010"
       - "8080:8080"
-      - "3010:3010"
+      - "3000:3000"
     depends_on:
       - wordpress
       - nginx
@@ -92,7 +92,6 @@ services:
     volumes:
       - /:/rootfs
       - /var/run/docker.sock:/var/run/docker.sock:rw
-      - ~/.docker/run/docker.sock:~/.docker/run/docker.sock
       - /sys:/sys
       - /var/lib/docker/:/var/lib/docker
       - /dev/disk:/dev/disk/
