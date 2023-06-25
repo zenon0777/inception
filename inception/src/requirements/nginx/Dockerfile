@@ -3,7 +3,6 @@ FROM debian:bullseye
 RUN apt-get update && apt-get install nginx -y && apt-get \
 install openssl -y && apt install dumb-init -y
 
-# create SSL certificate
 RUN openssl \
     req -x509 \
     -nodes \
@@ -16,10 +15,9 @@ RUN openssl \
 RUN rm  /etc/nginx/sites-enabled/default
 
 COPY ./tools/conf /etc/nginx/sites-available/conf
-COPY ./tools/monitor.sh .
-RUN chmod +x monitor.sh
+
 RUN ln -s /etc/nginx/sites-available/conf /etc/nginx/sites-enabled/default
 
 ENTRYPOINT ["dumb-init", "--"]
 
-CMD ["bash", "/monitor.sh"]
+CMD ["/usr/sbin/nginx", "-g", "daemon off;"]

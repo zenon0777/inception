@@ -90,20 +90,11 @@ services:
       - mariadb
       - redis
     volumes:
-      - /:/rootfs
-      - /var/run/docker.sock:/var/run/docker.sock:rw
-      - /sys:/sys
-      - /var/lib/docker/:/var/lib/docker
-      - /dev/disk:/dev/disk/
-  # mysql-exporter:
-  #   container_name: mysql-exporter
-  #   networks:
-  #     - my_network
-  #   build: ./src/requirements/mysql-exporter
-  #   depends_on:
-  #     - mariadb
-  #   # environment:
-  #   #   - DATA_SOURCE_NAME="zenon:login@(mariadb:3306)/"
+      - /:/rootfs:rw
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /sys:/sys:rw
+      - /var/lib/docker/:/var/lib/docker:rw
+      - /dev/disk:/dev/disk/:rw
     restart: always
 volumes:
   wordpress_data:

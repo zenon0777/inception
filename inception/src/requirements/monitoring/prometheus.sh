@@ -95,19 +95,7 @@ wget https://dl.grafana.com/enterprise/release/grafana-enterprise_10.0.1_amd64.d
 dpkg -i grafana-enterprise_10.0.1_amd64.deb
 sed -i 's/http_port = 3000/http_port = 3010/g' /etc/grafana/grafana.ini
 
-# apt-key adv --fetch-keys https://packages.grafana.com/gpg.key
-# apt-key fingerprint 9E439B102CF3C0C6
-# curl https://packages.grafana.com/gpg.key | gpg --dearmor -o /usr/share/keyrings/grafana-archive-keyring.gpg
-# echo "deb [signed-by=/usr/share/keyrings/grafana-archive-keyring.gpg] https://packages.grafana.com/oss/deb stable main" | \
-# tee /etc/apt/sources.list.d/grafana.list
-# systemctl enable grafana-server
-# systemctl start grafana-server
-
-# cd /etc/grafana
-# mkdir  dashboards
-# cd dashboards
-# cp /prometheus.yml /etc/grafana/dashboards/
-# wget https://github.com/prometheus/mysqld_exporter/blob/main/mysqld-mixin/dashboards/mysql-overview.json
+#cAdvisor
 
 wget https://github.com/google/cadvisor/releases/download/v0.40.0/cadvisor -O /usr/local/bin/cadvisor
 chmod +x /usr/local/bin/cadvisor
@@ -126,7 +114,12 @@ Restart=always
 WantedBy=multi-user.target
 " > /etc/systemd/system/cadvisor.service
 
-chmod 777 -R /var/run/grafana-server.service.status
+# cd /etc/grafana/provisioning/dashboards
+# cp /prometheus.yml /etc/grafana/datasource/
+# wget https://grafana.com/api/dashboards/10566/revisions/1/download
+
+
+chmod 777 -R /var/run/
 systemctl daemon-reload
 systemctl enable cadvisor
 systemctl start cadvisor
@@ -134,6 +127,5 @@ systemctl daemon-reload
 systemctl restart prometheus
 systemctl enable grafana-server
 systemctl start grafana-server
-# cadvisor -logtostderr
 #listen on localhost:9010 ==> the default port is in use
 prometheus --web.listen-address=:9010
