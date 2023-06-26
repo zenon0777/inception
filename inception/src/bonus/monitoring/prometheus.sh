@@ -18,11 +18,6 @@ chmod -R 777 /var/lib/prometheus
 cp /etc/prometheus/prometheus /usr/local/bin/
 cp /etc/prometheus/promtool /usr/local/bin/
 
-# echo "scrape_configs:
-#   - job_name: 'prometheus'
-#     static_configs:
-#       - targets: ['localhost:9090']" >> /etc/prometheus/prometheus.yml
-
 #install prometheus systemd service and set permission
 cp prometheus.service /etc/systemd/system/
 cp /etc/prometheus/prometheus.yml .
@@ -33,61 +28,14 @@ chmod -R 777 /etc/systemd/system/
 
 cd / && apt install -y systemctl
 
-systemctl daemon-reload
-systemctl enable prometheus
-systemctl start prometheus
-
-# apt install -y curl git go
-
-# git clone https://github.com/oliver006/redis_exporter.git
-# cd redis_exporter
-# go build .
-
-# curl -s https://api.github.com/repos/prometheus/node_exporter/releases/latest\
-# | grep browser_download_url|grep linux-amd64|cut -d '"' -f 4|wget -qi -
-# tar -xvf node_exporter-1.6.0.linux-amd64.tar.gz
-# mv node_exporter-1.6.0.linux-amd64 node_exporter
-# mv node_exporter/node_exporter /usr/local/bin/
-
-# useradd -rs /bin/false node_exporter
-
-# echo "[Unit]
-# Description=Node Exporter
-# After=network.target
-
-# [Service]
-# User=node_exporter
-# Group=node_exporter
-# Type=simple
-# ExecStart=/usr/local/bin/node_exporter
-
-# [Install]
-# WantedBy=multi-user.target" > /etc/systemd/system/node_exporter.service
-
-# systemctl daemon-reload
-# systemctl enable node_exporter
-
-# echo "  - job_name: 'node_exporter_metrics'
-#     scrape_interval: 5s
-#     static_configs:
-#       - targets: ['mysql-exporter:3306']" >> /etc/prometheus/prometheus.yml
-
-# echo "  - job_name: 'node_exporter_metrics'
-#     scrape_interval: 5s
-#     static_configs:
-#       - targets: ['mysql-exporter:9105']" >> prometheus.yml
-
-# echo "  - job_name: 'docker'
-#     static_configs:
-#       - targets: ['127.0.0.1:9323']" >> prometheus.yml
 
 echo "  - job_name: 'cadvisor'
     static_configs:
       - targets: ['localhost:8080']" >> prometheus.yml
 
-# echo "  - job_name: redis_exporter
-#     static_configs:
-#     - targets: ['redis:9121']" >> prometheus.yml
+systemctl daemon-reload
+systemctl enable prometheus
+systemctl start prometheus
 
 #grafana dashboard
 apt-get install -y adduser libfontconfig1
@@ -96,10 +44,8 @@ dpkg -i grafana-enterprise_10.0.1_amd64.deb
 sed -i 's/http_port = 3000/http_port = 3010/g' /etc/grafana/grafana.ini
 
 #cAdvisor
-
 wget https://github.com/google/cadvisor/releases/download/v0.40.0/cadvisor -O /usr/local/bin/cadvisor
 chmod +x /usr/local/bin/cadvisor
-
 echo "[Unit]
 Description=cAdvisor
 Documentation=https://github.com/google/cadvisor
@@ -114,6 +60,8 @@ Restart=always
 WantedBy=multi-user.target
 " > /etc/systemd/system/cadvisor.service
 
+#import dashboard
+
 # cd /etc/grafana/provisioning/dashboards
 # cp /prometheus.yml /etc/grafana/datasource/
 # wget https://grafana.com/api/dashboards/10566/revisions/1/download
@@ -127,5 +75,4 @@ systemctl daemon-reload
 systemctl restart prometheus
 systemctl enable grafana-server
 systemctl start grafana-server
-#listen on localhost:9010 ==> the default port is in use
 prometheus --web.listen-address=:9010

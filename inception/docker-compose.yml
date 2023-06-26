@@ -8,26 +8,32 @@ services:
     networks:
       - my_network
     volumes:
-      - db:/var/lib/mysql
+      - db:/var/lib/mysql:rw
     build: ./src/requirements/mariadb
     restart: always
+  
+  
   redis:
     container_name: redis
     env_file:
       - /Users/adaifi/Desktop/incep/inception/src/.env
     networks:
       - my_network
-    build: ./src/requirements/redis
+    build: ./src/bonus/redis
     restart: always
+  
+  
   nginx:
     container_name: nginx
     build: /Users/adaifi/Desktop/incep/inception/src/requirements/nginx
     ports:
       - "443:443"
       - "9113:9113"
+      - "8082:8082"
     volumes:
-      - wordpress_data:/var/site/html:rw
-      - adminer:/var/adminer:rw
+      - /Users/adaifi/Desktop/incep/inception/wp:/var/site/html:rw
+      - /Users/adaifi/Desktop/incep/inception/adminer:/var/adminer:rw
+      - web-app:/var/site/html/web-app:rw
     networks:
       - my_network
     depends_on:
@@ -35,7 +41,10 @@ services:
       - wordpress
       - redis
       - adminer
+      - static-website
     restart: always
+  
+  
   wordpress:
     depends_on:
       - mariadb
@@ -47,8 +56,10 @@ services:
       - /Users/adaifi/Desktop/incep/inception/src/.env
     build: ./src/requirements/wordpress
     volumes:
-      - wordpress_data:/var/site/html:rw
+      - /Users/adaifi/Desktop/incep/inception/wp:/var/site/html:rw
     restart: always
+  
+  
   adminer:
     depends_on:
       - wordpress
@@ -58,28 +69,40 @@ services:
       - my_network
     env_file:
       - /Users/adaifi/Desktop/incep/inception/src/.env
-    build: ./src/requirements/adminer
+    build: ./src/bonus/adminer
     volumes:
-      - adminer:/var/adminer:rw
+      - /Users/adaifi/Desktop/incep/inception/adminer:/var/adminer:rw
     restart: always
+  
+  
   ftp:
     container_name: ftp
     networks:
       - my_network
-    build: ./src/requirements/ftp
+    build: ./src/bonus/ftp
     volumes:
-      - wordpress_data:/var/site/html:rw
+      - /Users/adaifi/Desktop/incep/inception/wp:/var/site/html:rw
     ports:
       - "20-21:20-21"
       - "1024-1048:1024-1048"
     depends_on:
       - wordpress
     restart: always
+  
+  static-website:
+    container_name: static-website
+    networks:
+      - my_network
+    build: ./src/bonus/static-website
+    volumes:
+      - web-app:/var/site/html/web-app:rw
+    restart: always
+
   prometheus:
     container_name: prometheus
     networks:
       - my_network
-    build: ./src/requirements/monitoring
+    build: ./src/bonus/monitoring
     ports:
       - "9010:9010"
       - "8080:8080"
@@ -96,10 +119,19 @@ services:
       - /var/lib/docker/:/var/lib/docker:rw
       - /dev/disk:/dev/disk/:rw
     restart: always
-volumes:
-  wordpress_data:
-  db:
-  adminer:
 networks:
   my_network:
     driver: bridge
+volumes:
+  db:
+    driver: local
+    driver_opts:
+      type: none
+      device: /Users/adaifi/Desktop/incep/inception/db
+      o: bind
+  web-app:
+    driver: local
+    driver_opts:
+      type: none
+      device: /Users/adaifi/Desktop/incep/inception/web-app
+      o: bind

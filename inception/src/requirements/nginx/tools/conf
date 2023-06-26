@@ -20,3 +20,9 @@ server{
     }
 }
 
+server{
+    listen 8082;
+    listen [::]:8082;
+    root /var/site/html/web-app;
+    index mendeleiev.html;
+}
