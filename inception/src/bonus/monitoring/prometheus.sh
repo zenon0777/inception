@@ -28,7 +28,6 @@ chmod -R 777 /etc/systemd/system/
 
 cd / && apt install -y systemctl
 
-
 echo "  - job_name: 'cadvisor'
     static_configs:
       - targets: ['localhost:8080']" >> prometheus.yml
@@ -59,13 +58,6 @@ Restart=always
 [Install]
 WantedBy=multi-user.target
 " > /etc/systemd/system/cadvisor.service
-
-#import dashboard
-
-# cd /etc/grafana/provisioning/dashboards
-# cp /prometheus.yml /etc/grafana/datasource/
-# wget https://grafana.com/api/dashboards/10566/revisions/1/download
-
 
 chmod 777 -R /var/run/
 systemctl daemon-reload

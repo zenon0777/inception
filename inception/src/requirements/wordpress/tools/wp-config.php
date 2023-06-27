@@ -21,16 +21,6 @@ define('WP_REDIS_CLIENT', 'predis');
 define('WP_REDIS_HOST', 'redis');
 define('WP_REDIS_PORT', '6379');
 
-// define('FTP_HOST', 'ftp');
-// define('FTP_USER', 'ftpsecure');
-// define('FTP_PASS', '');
-
-// define('FS_METHOD', 'ftpext');
-// define('FTP_BASE', '/var/site/html/');
-// define('FTP_USER', 'myuser');
-// define('FTP_PASS', '');
-// define('FTP_HOST', 'ftp');
-
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 define( 'DB_NAME', 'incep' );
