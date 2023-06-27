@@ -4,35 +4,35 @@ services:
   mariadb:
     container_name: mariadb
     env_file:
-      - /Users/adaifi/Desktop/incep/inception/src/.env
+      - ./.env
     networks:
       - my_network
     volumes:
       - db:/var/lib/mysql:rw
-    build: ./src/requirements/mariadb
+    build: ./requirements/mariadb
     restart: always
   
   
   redis:
     container_name: redis
     env_file:
-      - /Users/adaifi/Desktop/incep/inception/src/.env
+      - ./.env
     networks:
       - my_network
-    build: ./src/bonus/redis
+    build: ./requirements/bonus/redis
     restart: always
   
   
   nginx:
     container_name: nginx
-    build: /Users/adaifi/Desktop/incep/inception/src/requirements/nginx
+    build: ./requirements/nginx
     ports:
       - "443:443"
       - "9113:9113"
       - "8082:8082"
     volumes:
-      - /Users/adaifi/Desktop/incep/inception/wp:/var/site/html:rw
-      - /Users/adaifi/Desktop/incep/inception/adminer:/var/adminer:rw
+      - /home/adaifi/data/wp:/var/site/html:rw
+      - /home/adaifi/data/adminer:/var/adminer:rw
       - web-app:/var/site/html/web-app:rw
     networks:
       - my_network
@@ -53,10 +53,10 @@ services:
       - my_network
     container_name: wordpress
     env_file:
-      - /Users/adaifi/Desktop/incep/inception/src/.env
-    build: ./src/requirements/wordpress
+      - ./.env
+    build: ./requirements/wordpress
     volumes:
-      - /Users/adaifi/Desktop/incep/inception/wp:/var/site/html:rw
+      - /home/adaifi/data/wp:/var/site/html:rw
     restart: always
   
   
@@ -68,10 +68,10 @@ services:
     networks:
       - my_network
     env_file:
-      - /Users/adaifi/Desktop/incep/inception/src/.env
-    build: ./src/bonus/adminer
+      - ./.env
+    build: ./requirements/bonus/adminer
     volumes:
-      - /Users/adaifi/Desktop/incep/inception/adminer:/var/adminer:rw
+      - /home/adaifi/data/adminer:/var/adminer:rw
     restart: always
   
   
@@ -79,9 +79,9 @@ services:
     container_name: ftp
     networks:
       - my_network
-    build: ./src/bonus/ftp
+    build: ./requirements/bonus/ftp
     volumes:
-      - /Users/adaifi/Desktop/incep/inception/wp:/var/site/html:rw
+      - /home/adaifi/data/wp:/var/site/html:rw
     ports:
       - "20-21:20-21"
       - "1024-1048:1024-1048"
@@ -93,7 +93,7 @@ services:
     container_name: static-website
     networks:
       - my_network
-    build: ./src/bonus/static-website
+    build: ./requirements/bonus/static-website
     volumes:
       - web-app:/var/site/html/web-app:rw
     restart: always
@@ -102,7 +102,7 @@ services:
     container_name: prometheus
     networks:
       - my_network
-    build: ./src/bonus/monitoring
+    build: ./requirements/bonus/monitoring
     ports:
       - "9010:9010"
       - "8080:8080"
@@ -127,11 +127,11 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /Users/adaifi/Desktop/incep/inception/db
+      device: /home/adaifi/data/db
       o: bind
   web-app:
     driver: local
     driver_opts:
       type: none
-      device: /Users/adaifi/Desktop/incep/inception/web-app
+      device: /home/adaifi/data/web-app
       o: bind

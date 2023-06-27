@@ -1,13 +1,13 @@
 up: 
-	-mkdir -p /home/adaifi/data/wordpress /home/adaifi/data/DB /home/adaifi/data/adminer /home/adaifi/data/web-app
-	-cd src && docker compose up --build
+	-mkdir -p /home/adaifi/data/wordpress /home/adaifi/data/db /home/adaifi/data/adminer /home/adaifi/data/web-app
+	-cd srcs && docker-compose up --build
 down:
 
-	-cd src && docker compose down
+	-cd srcs && docker-compose down
 
 clean:
-	-cd src && docker compose down -v 
-	-rm -rf /home/adaifi/data/wordpress
-	-rm -rf /home/adaifi/data/DB
-	-rm -rf /home/adaifi/data/adminer
-	-rm -rf /home/adaifi/data/web-app
+	-cd srcs && docker-compose down -v 
+	-sudo rm -rf /home/adaifi/data/wordpress
+	-sudo rm -rf /home/adaifi/data/DB
+	-sudo rm -rf /home/adaifi/data/adminer
+	-sudo rm -rf /home/adaifi/data/web-app
