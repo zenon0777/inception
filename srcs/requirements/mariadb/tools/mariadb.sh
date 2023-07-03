@@ -2,7 +2,7 @@
 
 sed -i 's/bind-address            = 127.0.0.1/bind-address = 0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf
 
-folder_name="/var/lib/mysql/incep"
+folder_name="/var/lib/mysql/$DB_NAME"
 
 if [ -d "$folder_name" ]; then
   echo "Folder '$folder_name' exists in the current directory."

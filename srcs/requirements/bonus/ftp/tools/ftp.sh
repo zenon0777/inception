@@ -17,8 +17,8 @@ useradd -m -p $(openssl passwd -1 zeno) zeno
 addgroup zeno
 usermod -aG zeno zeno
 echo "zeno" | tee -a /etc/vsftpd.userlist
-chown -R zeno:zeno /var/site/html
-chmod -R 777 /var/site/html
+chown -R zeno:zeno /var/site/html/
+chmod -R 777 /var/site/html/
 
 /etc/init.d/vsftpd stop
 

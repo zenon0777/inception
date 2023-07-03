@@ -31,7 +31,7 @@ services:
       - "9113:9113"
       - "8082:8082"
     volumes:
-      - /home/adaifi/data/wp:/var/site/html:rw
+      - /home/adaifi/data/wordpress:/var/site/html:rw
       - /home/adaifi/data/adminer:/var/adminer:rw
       - web-app:/var/site/html/web-app:rw
     networks:
@@ -56,7 +56,7 @@ services:
       - ./.env
     build: ./requirements/wordpress
     volumes:
-      - /home/adaifi/data/wp:/var/site/html:rw
+      - /home/adaifi/data/wordpress:/var/site/html:rw
     restart: always
   
   
@@ -81,7 +81,7 @@ services:
       - my_network
     build: ./requirements/bonus/ftp
     volumes:
-      - /home/adaifi/data/wp:/var/site/html:rw
+      - /home/adaifi/data/wordpress:/var/site/html:rw
     ports:
       - "20-21:20-21"
       - "1024-1048:1024-1048"
