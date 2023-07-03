@@ -82,6 +82,8 @@ services:
     build: ./requirements/bonus/ftp
     volumes:
       - /home/adaifi/data/wordpress:/var/site/html:rw
+    env_file:
+      - ./.env
     ports:
       - "20-21:20-21"
       - "1024-1048:1024-1048"

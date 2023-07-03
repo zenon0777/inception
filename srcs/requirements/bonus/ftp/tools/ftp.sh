@@ -13,11 +13,11 @@ cat conf >> /etc/vsftpd.conf
 
 /etc/init.d/vsftpd restart
 
-useradd -m -p $(openssl passwd -1 zeno) zeno
-addgroup zeno
-usermod -aG zeno zeno
-echo "zeno" | tee -a /etc/vsftpd.userlist
-chown -R zeno:zeno /var/site/html/
+useradd -m -p $(openssl passwd -1 $ftp_pass) $ftp_usr
+addgroup $ftp_usr
+usermod -aG $ftp_usr $ftp_usr
+echo "$ftp_usr" | tee -a /etc/vsftpd.userlist
+chown -R $ftp_usr:$ftp_usr /var/site/html/
 chmod -R 777 /var/site/html/
 
 /etc/init.d/vsftpd stop

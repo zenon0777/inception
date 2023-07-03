@@ -26,9 +26,9 @@ wp config set DB_USER $USER_NAME --allow-root
 wp config set DB_PASSWORD $USER_PASSWORD --allow-root
 wp config set DB_HOST mariadb --allow-root
 
-wp core install --url=localhost --title="digitparadise" --admin_user=skinnyleg --admin_password=123456 --admin_email=info@wp-cli.org --allow-root
+wp core install --url=localhost --title="digitparadise" --admin_user=$admin --admin_password=$admin_pass  --admin_email=info@wp-cli.org --allow-root
 
-wp user create adaifi adaifi@wp-cli.org --user_pass=123456 --role=editor --allow-root
+wp user create $wp_usr editor@wp-cli.org --user_pass=$usr_pass --role=editor --allow-root
 
 wp plugin install redis-cache --activate --allow-root
 
