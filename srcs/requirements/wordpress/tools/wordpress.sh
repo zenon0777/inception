@@ -15,11 +15,11 @@ cd /var/site/html
 wp core download --allow-root
 
 cp /wp-config.php /var/site/html/wp-config.php
-#wp config create --allow-root --dbname=$DB_NAME --dbuser=$USER_NAME --dbpass=$USER_PASSWORD --dbhost=mariadb --extra-php <<PHP
-#define('WP_REDIS_CLIENT', 'predis');
-#define('WP_REDIS_HOST', 'redis');
-#define('WP_REDIS_PORT', '6379');
-#PHP
+wp config create --allow-root --dbname=$DB_NAME --dbuser=$USER_NAME --dbpass=$USER_PASSWORD --dbhost=mariadb --extra-php <<PHP
+    define('WP_REDIS_CLIENT', 'predis');
+    define('WP_REDIS_HOST', 'redis');
+    define('WP_REDIS_PORT', '6379');
+PHP
 
 wp config set DB_NAME $DB_NAME --allow-root
 wp config set DB_USER $USER_NAME --allow-root
