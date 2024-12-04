@@ -26,7 +26,7 @@ wp config set DB_USER $USER_NAME --allow-root
 wp config set DB_PASSWORD $USER_PASSWORD --allow-root
 wp config set DB_HOST mariadb --allow-root
 
-wp core install --url=localhost --title="digitparadise" --admin_user=$admin --admin_password=$admin_pass  --admin_email=info@wp-cli.org --allow-root
+wp core install --url=https://159.65.172.163 --title="digitparadise" --admin_user=$admin --admin_password=$admin_pass  --admin_email=info@wp-cli.org --allow-root
 
 wp user create $wp_usr editor@wp-cli.org --user_pass=$usr_pass --role=editor --allow-root
 

@@ -21,6 +21,9 @@ define('WP_REDIS_CLIENT', 'predis');
 define('WP_REDIS_HOST', 'redis');
 define('WP_REDIS_PORT', '6379');
 
+define('WP_HOME', 'https:159.65.172.163');
+define('WP_SITEURL', 'https:159.65.172.163');
+
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 define( 'DB_NAME', 'incep');
