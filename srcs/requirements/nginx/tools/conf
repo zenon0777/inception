@@ -1,43 +1,28 @@
-server {
+server{
     listen 443 ssl;
     listen [::]:443 ssl;
-    server_name 159.65.172.163;  # Ensure this matches your IP address or domain
     root /var/site/html;
-    index index.php index.html;
-
-    # SSL configuration
+    index index.php;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_certificate /etc/ssl/self-signed.crt;
     ssl_certificate_key /etc/ssl/private/self-signed.key;
-
-    # Redirect any HTTP traffic to HTTPS
-    location / {
-        try_files $uri $uri/ /index.php?$args;
-    }
-
-    # Handle PHP scripts
-    location ~ \.php$ {
-        include fastcgi_params;
+    location ~ \.php$ 
+    {
         fastcgi_pass wordpress:9000;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-    }
-
-    # Adminer configuration
-    location /adminer {
         include fastcgi_params;
+        fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+    location /adminer
+    {
         fastcgi_pass adminer:663;
-        fastcgi_param SCRIPT_FILENAME /var/adminer/index.php;
+        include fastcgi_params;
+        fastcgi_param  SCRIPT_FILENAME /var/adminer/index.php ;
     }
 }
 
-server {
+server{
     listen 8082;
     listen [::]:8082;
-    server_name 159.65.172.163;
     root /var/site/html/web-app;
     index mendeleiev.html;
-
-    location / {
-        try_files $uri $uri/ =404;
-    }
 }
